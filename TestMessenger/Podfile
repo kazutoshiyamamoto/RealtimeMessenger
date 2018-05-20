@@ -7,6 +7,6 @@ target 'TestMessenger' do
 
   # Pods for TestMessenger
 pod 'JSQMessagesViewController'
-pod 'Firebase'
+pod 'Firebase/Database'
 
 end

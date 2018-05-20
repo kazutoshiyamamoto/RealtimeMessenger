@@ -13,7 +13,7 @@
 		FD0E294920B15797004822F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD0E294720B15797004822F7 /* Main.storyboard */; };
 		FD0E294B20B15798004822F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD0E294A20B15798004822F7 /* Assets.xcassets */; };
 		FD0E294E20B15798004822F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD0E294C20B15798004822F7 /* LaunchScreen.storyboard */; };
-		FD0E295620B15A46004822F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD0E295520B15A46004822F7 /* GoogleService-Info.plist */; };
+		FD0E295C20B16E52004822F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD0E295B20B16E52004822F7 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		FD0E294A20B15798004822F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD0E294D20B15798004822F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD0E294F20B15798004822F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FD0E295520B15A46004822F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FD0E295B20B16E52004822F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +86,7 @@
 				FD0E294A20B15798004822F7 /* Assets.xcassets */,
 				FD0E294C20B15798004822F7 /* LaunchScreen.storyboard */,
 				FD0E294F20B15798004822F7 /* Info.plist */,
-				FD0E295520B15A46004822F7 /* GoogleService-Info.plist */,
+				FD0E295B20B16E52004822F7 /* GoogleService-Info.plist */,
 			);
 			path = TestMessenger;
 			sourceTree = "<group>";
@@ -152,7 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD0E294E20B15798004822F7 /* LaunchScreen.storyboard in Resources */,
-				FD0E295620B15A46004822F7 /* GoogleService-Info.plist in Resources */,
+				FD0E295C20B16E52004822F7 /* GoogleService-Info.plist in Resources */,
 				FD0E294B20B15798004822F7 /* Assets.xcassets in Resources */,
 				FD0E294920B15797004822F7 /* Main.storyboard in Resources */,
 			);
@@ -189,14 +189,14 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

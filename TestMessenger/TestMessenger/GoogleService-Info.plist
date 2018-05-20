@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>285849822909-n9hti2v9jo1sllulmo5753feru1irfo8.apps.googleusercontent.com</string>
+	<string>823240085219-qvk68lbos5ng4oqd258nkua6niqik3ch.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.285849822909-n9hti2v9jo1sllulmo5753feru1irfo8</string>
+	<string>com.googleusercontent.apps.823240085219-qvk68lbos5ng4oqd258nkua6niqik3ch</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDYXsa6UysIDhSLwpnhqB05L6G46ZHM8BY</string>
+	<string>AIzaSyBvwTWOYplmO8uPn9MNCWfMVaVVTDaq7dA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>285849822909</string>
+	<string>823240085219</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>Swift-beginners2.TestFirebase</string>
+	<string>Swift-beginners2.TestMessenger</string>
 	<key>PROJECT_ID</key>
-	<string>testfirebase-ebbb2</string>
+	<string>testmessenger-284d4</string>
 	<key>STORAGE_BUCKET</key>
-	<string>testfirebase-ebbb2.appspot.com</string>
+	<string>testmessenger-284d4.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:285849822909:ios:9b1ed9fdcc38eb04</string>
+	<string>1:823240085219:ios:64cde76d6e5298b5</string>
 	<key>DATABASE_URL</key>
-	<string>https://testfirebase-ebbb2.firebaseio.com</string>
+	<string>https://testmessenger-284d4.firebaseio.com</string>
 </dict>
 </plist>
