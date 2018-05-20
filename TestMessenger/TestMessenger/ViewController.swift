@@ -29,7 +29,17 @@ class ViewController: JSQMessagesViewController {
         // DatabaseReferenceのインスタンス化
         ref = Database.database().reference()
         
-
+        // 最新25件のデータをデータベースから取得する
+        // 最新のデータが追加されるたびに最新データを取得する
+        ref.queryLimited(toLast: 25).observeEventType(FEventType.ChildAdded, withBlock: { (snapshot) in
+            let text = snapshot.value["text"] as? String
+            let sender = snapshot.value["from"] as? String
+            let name = snapshot.value["name"] as? String
+            print(snapshot.value!)
+            let message = JSQMessage(senderId: sender, displayName: name, text: text)
+            self.messages?.append(message)
+            self.finishSendingMessage()
+        })
     }
     
     override func viewDidLoad() {
