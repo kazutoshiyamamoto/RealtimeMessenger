@@ -74,6 +74,18 @@ class ViewController: JSQMessagesViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //Sendボタンが押された時に呼ばれるメソッド
+    override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
+        
+        //メッセージの送信処理を完了する(画面上にメッセージが表示される)
+        self.finishReceivingMessage(animated: true)
+        
+        //firebaseにデータを送信、保存する
+        let post1 = ["from": senderId, "name": senderDisplayName, "text":text]
+        let post1Ref = ref.childByAutoId()
+        post1Ref.setValue(post1)
+    }
+    
     
 }
 
