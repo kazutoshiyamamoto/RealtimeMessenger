@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import JSQMessagesViewController
+import Firebase
 
-class ViewController: UIViewController {
+class ViewController: JSQMessagesViewController {
+    
+    var messages: [JSQMessage]?
+    // 背景画像に関するプロパティ
+    var incomingBubble: JSQMessagesBubbleImage!
+    var outgoingBubble: JSQMessagesBubbleImage!
+    // アバター画像に関するプロパティ
+    var incomingAvatar: JSQMessagesAvatarImage!
+    var outgoingAvatar: JSQMessagesAvatarImage!
 
     override func viewDidLoad() {
         super.viewDidLoad()
