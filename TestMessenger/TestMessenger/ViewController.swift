@@ -74,7 +74,7 @@ class ViewController: JSQMessagesViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //Sendボタンが押された時に呼ばれるメソッド
+    // Sendボタンが押された時に呼ばれるメソッド
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
         
         //メッセージの送信処理を完了する(画面上にメッセージが表示される)
@@ -86,6 +86,10 @@ class ViewController: JSQMessagesViewController {
         post1Ref.setValue(post1)
     }
     
+    // アイテムごとに参照するメッセージデータを返す
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
+        return messages![indexPath.item]
+    }
     
 }
 
