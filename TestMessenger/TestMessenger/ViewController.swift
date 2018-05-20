@@ -64,6 +64,9 @@ class ViewController: JSQMessagesViewController {
         self.incomingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "Swift-Logo")!, diameter: 64)
         self.outgoingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "Swift-Logo")!, diameter: 64)
         
+        //メッセージデータの配列を初期化
+        self.messages = []
+        setupFirebase()
     }
     
     override func didReceiveMemoryWarning() {
