@@ -85,8 +85,8 @@ class ViewController: JSQMessagesViewController {
         let post1Ref = ref.childByAutoId()
         post1Ref.setValue(post1)
         
-        // Sendを押した後にTextFieldをクリアする
-        self.finishSendingMessage(animated: true)
+        //キーボードを閉じる
+        self.view.endEditing(true)
     }
     
     // アイテムごとに参照するメッセージデータを返す
@@ -116,7 +116,5 @@ class ViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages!.count
     }
-    
-    
 }
 
