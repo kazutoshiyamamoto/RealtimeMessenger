@@ -95,5 +95,11 @@ class ViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
         return messages![indexPath.item].senderId == self.senderId ? outgoingBubble : incomingBubble
     }
+    
+    // アイテムごとにアバター画像を返す
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
+        let message = messages[indexPath.item]
+        return getAvatar(message.senderId)
+    }
 }
 
