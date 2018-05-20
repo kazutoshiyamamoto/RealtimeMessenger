@@ -46,6 +46,23 @@ class ViewController: JSQMessagesViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // クリーンアップツールバーの設定
+        inputToolbar!.contentView!.leftBarButtonItem = nil
+        // 新しいメッセージを受信するたびに下にスクロールする
+        automaticallyScrollsToMostRecentMessage = true
+        
+        // 自分のsenderId, senderDisplayNameを設定
+        self.senderId = "user1"
+        self.senderDisplayName = "hoge"
+        
+        // 吹き出しの設定
+        let bubbleFactory = JSQMessagesBubbleImageFactory()
+        self.incomingBubble = bubbleFactory?.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+        self.outgoingBubble = bubbleFactory?.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+        
+        // アバターの設定
+        self.incomingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "Swift-Logo")!, diameter: 64)
+        self.outgoingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "Swift-Logo")!, diameter: 64)
         
     }
     
