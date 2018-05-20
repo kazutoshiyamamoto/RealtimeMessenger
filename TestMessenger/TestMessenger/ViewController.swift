@@ -91,5 +91,9 @@ class ViewController: JSQMessagesViewController {
         return messages![indexPath.item]
     }
     
+    // アイテムごとのMessageBubble(背景)を返す
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
+        return messages![indexPath.item].senderId == self.senderId ? outgoingBubble : incomingBubble
+    }
 }
 
