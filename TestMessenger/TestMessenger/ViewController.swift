@@ -26,11 +26,14 @@ class ViewController: JSQMessagesViewController {
     
     // 返答メッセージに関する辞書
     let respond: [String:String] = [
-        "ナチュラル":"ホワイト/ベージュ/ブラウンの色の家具の組み合わせはいかがですか？",
-        "落ち着いた":"ブラック/ダークブラウン/白の色の組み合わせはいかがですか？",
-        "クール":"ホワイト/ブラックの2色を中心に組み合わせるのはいかがですか？"
+        "ナチュラル":"ホワイト、ベージュ、ブラウンの色の家具の組み合わせでできますよ！いかがですか？\nいいorよくない",
+        "落ち着いた":"ブラック、ダークブラウン、白の色の家具の組み合わせでできますよ！いかがですか？\nいいorよくない",
+        "クール":"ホワイトとブラックの家具の組み合わせでできますよ！いかがですか？\nいいorよくない",
+        "いい":"よかったです！ルームクリップのキーワード検索で具体的なイメージを膨らませていきましょう！",
+        "よくない":"他に気になるテイストはありますか？\nあるorない",
+        "ある":"もう一度次から気になるテイストを選んでください\nナチュラルor落ち着いたorクール",
+        "ない":"お力になれず残念です。。ルームクリップのキーワード検索では様々なお部屋の画像がありますので、是非使ってみてください！"
     ]
-    
     
     func setupFirebase() {
         // DatabaseReferenceのインスタンス化
@@ -74,6 +77,9 @@ class ViewController: JSQMessagesViewController {
         //メッセージデータの配列を初期化
         self.messages = []
         setupFirebase()
+        
+        // 会話開始時のメッセージを表示
+        testRecvMessage(responseText: "次のどのテイストのお部屋が好きですか？\nナチュラルor落ち着いたorクール")
     }
     
     override func didReceiveMemoryWarning() {
@@ -105,38 +111,38 @@ class ViewController: JSQMessagesViewController {
         testRecvMessage(responseText: messageText)
     }
     
-// アイテムごとに参照するメッセージデータを返す
-override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
-    return messages![indexPath.item]
-}
-
-// アイテムごとのMessageBubble(背景)を返す
-override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
-    let message = self.messages?[indexPath.item]
-    if message?.senderId == self.senderId {
-        return self.outgoingBubble
+    // アイテムごとに参照するメッセージデータを返す
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
+        return messages![indexPath.item]
     }
-    return self.incomingBubble
-}
-
-// アイテムごとにアバター画像を返す
-override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
-    let message = self.messages?[indexPath.item]
-    if message?.senderId == self.senderId {
-        return self.outgoingAvatar
+    
+    // アイテムごとのMessageBubble(背景)を返す
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
+        let message = self.messages?[indexPath.item]
+        if message?.senderId == self.senderId {
+            return self.outgoingBubble
+        }
+        return self.incomingBubble
     }
-    return self.incomingAvatar
-}
-
-// アイテムの総数を返す
-override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return messages!.count
-}
-
-// メッセージに対して返答する
-func testRecvMessage(responseText: String) {
-    let message = JSQMessage(senderId: "user2", displayName: "B", text: responseText)
-    self.messages?.append(message!)
-    self.finishReceivingMessage(animated: true)
-}
+    
+    // アイテムごとにアバター画像を返す
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
+        let message = self.messages?[indexPath.item]
+        if message?.senderId == self.senderId {
+            return self.outgoingAvatar
+        }
+        return self.incomingAvatar
+    }
+    
+    // アイテムの総数を返す
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messages!.count
+    }
+    
+    // メッセージに対して返答する
+    func testRecvMessage(responseText: String) {
+        let message = JSQMessage(senderId: "user2", displayName: "B", text: responseText)
+        self.messages?.append(message!)
+        self.finishReceivingMessage(animated: true)
+    }
 }
