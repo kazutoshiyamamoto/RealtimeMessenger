@@ -24,6 +24,14 @@ class ViewController: JSQMessagesViewController {
     var incomingAvatar: JSQMessagesAvatarImage!
     var outgoingAvatar: JSQMessagesAvatarImage!
     
+    // 返答メッセージに関する辞書
+    let respond: [String:String] = [
+        "ナチュラル":"ホワイト/ベージュ/ブラウンの色の家具の組み合わせはいかがですか？",
+        "落ち着いた":"ブラック/ダークブラウン/白の色の組み合わせはいかがですか？",
+        "クール":"ホワイト/ブラックの2色を中心に組み合わせるのはいかがですか？"
+    ]
+    
+    
     func setupFirebase() {
         // DatabaseReferenceのインスタンス化
         ref = Database.database().reference()
@@ -35,7 +43,6 @@ class ViewController: JSQMessagesViewController {
             let text = snapshotValue["text"] as! String
             let sender = snapshotValue["from"] as! String
             let name = snapshotValue["name"] as! String
-            print(snapshot.value!)
             let message = JSQMessage(senderId: sender, displayName: name, text: text)
             self.messages?.append(message!)
             self.finishSendingMessage()
@@ -53,11 +60,11 @@ class ViewController: JSQMessagesViewController {
         
         // 自分のsenderId, senderDisplayNameを設定
         self.senderId = "user1"
-        self.senderDisplayName = "hoge"
+        self.senderDisplayName = "A"
         
         // 吹き出しの設定
         let bubbleFactory = JSQMessagesBubbleImageFactory()
-        self.incomingBubble = bubbleFactory?.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+        self.incomingBubble = bubbleFactory?.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleGreen())
         self.outgoingBubble = bubbleFactory?.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
         
         // アバターの設定
@@ -80,7 +87,7 @@ class ViewController: JSQMessagesViewController {
         //メッセージの送信処理を完了する(画面上にメッセージが表示される)
         self.finishReceivingMessage(animated: true)
         
-        //firebaseにデータを送信、保存する
+        //Firebaseにデータを送信、保存する
         let post1 = ["from": senderId, "name": senderDisplayName, "text":text]
         let post1Ref = ref.childByAutoId()
         post1Ref.setValue(post1)
@@ -88,34 +95,48 @@ class ViewController: JSQMessagesViewController {
         
         //キーボードを閉じる
         self.view.endEditing(true)
-    }
-    
-    // アイテムごとに参照するメッセージデータを返す
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
-        return messages![indexPath.item]
-    }
-    
-    // アイテムごとのMessageBubble(背景)を返す
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
-        let message = self.messages?[indexPath.item]
-        if message?.senderId == self.senderId {
-            return self.outgoingBubble
+        
+        // Sendの内容に合わせて返答内容を変更する
+        guard let messageText = respond[text] else {
+            testRecvMessage(responseText: "わかりませんでした")
+            return
         }
-        return self.incomingBubble
+        // 返答メッセージに関する辞書から値を取り出す
+        testRecvMessage(responseText: messageText)
     }
     
-    // アイテムごとにアバター画像を返す
-    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
-        let message = self.messages?[indexPath.item]
-        if message?.senderId == self.senderId {
-            return self.outgoingAvatar
-        }
-        return self.incomingAvatar
-    }
-    
-    // アイテムの総数を返す
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages!.count
-    }
+// アイテムごとに参照するメッセージデータを返す
+override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
+    return messages![indexPath.item]
 }
 
+// アイテムごとのMessageBubble(背景)を返す
+override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
+    let message = self.messages?[indexPath.item]
+    if message?.senderId == self.senderId {
+        return self.outgoingBubble
+    }
+    return self.incomingBubble
+}
+
+// アイテムごとにアバター画像を返す
+override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
+    let message = self.messages?[indexPath.item]
+    if message?.senderId == self.senderId {
+        return self.outgoingAvatar
+    }
+    return self.incomingAvatar
+}
+
+// アイテムの総数を返す
+override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return messages!.count
+}
+
+// メッセージに対して返答する
+func testRecvMessage(responseText: String) {
+    let message = JSQMessage(senderId: "user2", displayName: "B", text: responseText)
+    self.messages?.append(message!)
+    self.finishReceivingMessage(animated: true)
+}
+}
