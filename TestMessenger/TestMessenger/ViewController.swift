@@ -84,6 +84,7 @@ class ViewController: JSQMessagesViewController {
         let post1 = ["from": senderId, "name": senderDisplayName, "text":text]
         let post1Ref = ref.childByAutoId()
         post1Ref.setValue(post1)
+        self.finishSendingMessage(animated: true)
         
         //キーボードを閉じる
         self.view.endEditing(true)
