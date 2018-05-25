@@ -26,40 +26,28 @@ class ViewController: JSQMessagesViewController {
     
     // 返答メッセージに関する辞書
     let respond: [String:String] = [
-        "ナチュラル":"ホワイト、ベージュ、ブラウンの色の家具の組み合わせでできますよ！いかがですか？\nいいorよくない",
-        "落ち着いた":"ブラック、ダークブラウン、白の色の家具の組み合わせでできますよ！いかがですか？\nいいorよくない",
-        "クール":"ホワイトとブラックの家具の組み合わせでできますよ！いかがですか？\nいいorよくない",
-        "いい":"よかったです！ルームクリップのキーワード検索で具体的なイメージを膨らませていきましょう！",
+        "部屋のテイスト":"次のどのテイストのお部屋が好きですか？\nナチュラルor落ち着いたorクール",
+        "ナチュラル":"それでしたらホワイト、ベージュ、ブラウンの色の家具の組み合わせがおすすめです！いかがですか？\nいいorよくない",
+        "落ち着いた":"それでしたらブラック、ダークブラウン、白の色の家具の組み合わせがおすすめです！いかがですか？\nいいorよくない",
+        "クール":"それでしたらホワイトとブラックの家具の組み合わせがおすすめです！いかがですか？\nいいorよくない",
+        "いい":"よかったです！RoomClipのキーワード検索でより具体的なイメージを膨らませてみましょう！\n他に知りたいことはありますか？\n知りたいor大丈夫",
         "よくない":"他に気になるテイストはありますか？\nあるorない",
         "ある":"もう一度次から気になるテイストを選んでください\nナチュラルor落ち着いたorクール",
-        "ない":"お力になれず残念です。。ルームクリップのキーワード検索では様々なお部屋の画像がありますので、是非使ってみてください！"
+        "ない":"お力になれず残念です。。\n他に知りたいことはありますか？\n知りたいor大丈夫",
+        "部屋が狭い":"高さの低い家具で統一するか、背の高い家具を部屋の手前に置くと広く見えますよ！\n他に知りたいことはありますか？\n知りたいor大丈夫",
+        "知りたい":"知りたいことを教えてください。\n部屋のテイストor部屋が狭いor家具の配置",
+        "大丈夫":"少しでもお手伝いできたなら嬉しいです！お部屋づくり楽しんでくださいね。",
+        "家具の配置":"楽に通れるスペースを確保できるようにしましょう。掃除も楽ですよ！\n他に知りたいことはありますか？\n知りたいor大丈夫"
     ]
-    
-    func setupFirebase() {
-        // DatabaseReferenceのインスタンス化
-        ref = Database.database().reference()
-        
-        // 最新25件のデータをデータベースから取得する
-        // 最新のデータが追加されるたびに最新データを取得する
-        ref.queryLimited(toLast: 25).observe(DataEventType.childAdded, with: { (snapshot) -> Void in
-            let snapshotValue = snapshot.value as! NSDictionary
-            let text = snapshotValue["text"] as! String
-            let sender = snapshotValue["from"] as! String
-            let name = snapshotValue["name"] as! String
-            let message = JSQMessage(senderId: sender, displayName: name, text: text)
-            self.messages?.append(message!)
-            self.finishSendingMessage()
-        })
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         // クリーンアップツールバーの設定
-        inputToolbar!.contentView!.leftBarButtonItem = nil
+        self.inputToolbar!.contentView!.leftBarButtonItem = nil
         // 新しいメッセージを受信するたびに下にスクロールする
-        automaticallyScrollsToMostRecentMessage = true
+        self.automaticallyScrollsToMostRecentMessage = true
         
         // 自分のsenderId, senderDisplayNameを設定
         self.senderId = "user1"
@@ -71,20 +59,40 @@ class ViewController: JSQMessagesViewController {
         self.outgoingBubble = bubbleFactory?.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
         
         // アバターの設定
-        self.incomingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "Swift-Logo")!, diameter: 64)
-        self.outgoingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "Swift-Logo")!, diameter: 64)
+        self.incomingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "snowman")!, diameter: 64)
+        self.outgoingAvatar = JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "santaclaus")!, diameter: 64)
         
         //メッセージデータの配列を初期化
         self.messages = []
-        setupFirebase()
+        self.setupFirebase()
         
-        // 会話開始時のメッセージを表示
-        testRecvMessage(responseText: "次のどのテイストのお部屋が好きですか？\nナチュラルor落ち着いたorクール")
+        // 過去のメッセージ取得後に会話開始時のメッセージを表示
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
+            self.testRecvMessage(responseText: "何か手伝えることはありますか？\n部屋のテイストor部屋が狭いor家具の配置")
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // データベースからデータを取得する
+    func setupFirebase() {
+        // DatabaseReferenceのインスタンス化
+        self.ref = Database.database().reference()
+        
+        // 最新5件のデータをデータベースから取得する
+        // 最新のデータが追加されるたびに最新データを取得する
+        self.ref.queryLimited(toLast: 10).observe(DataEventType.childAdded, with: { (snapshot) -> Void in
+            let snapshotValue = snapshot.value as! NSDictionary
+            let text = snapshotValue["text"] as! String
+            let sender = snapshotValue["from"] as! String
+            let name = snapshotValue["name"] as! String
+            let message = JSQMessage(senderId: sender, displayName: name, text: text)
+            self.messages?.append(message!)
+            self.finishSendingMessage()
+        })
     }
     
     // Sendボタンが押された時に呼ばれるメソッド
@@ -95,20 +103,26 @@ class ViewController: JSQMessagesViewController {
         
         //Firebaseにデータを送信、保存する
         let post1 = ["from": senderId, "name": senderDisplayName, "text":text]
-        let post1Ref = ref.childByAutoId()
+        let post1Ref = self.ref.childByAutoId()
         post1Ref.setValue(post1)
         self.finishSendingMessage(animated: true)
         
-        //キーボードを閉じる
-        self.view.endEditing(true)
-        
         // Sendの内容に合わせて返答内容を変更する
-        guard let messageText = respond[text] else {
-            testRecvMessage(responseText: "わかりませんでした")
-            return
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(50)) {
+            guard let messageText = self.respond[text] else {
+                self.testRecvMessage(responseText: "選択肢の中から選んで入力してください！")
+                return
+            }
+            // 返答メッセージに関する辞書から値を取り出す
+            self.testRecvMessage(responseText: messageText)
         }
-        // 返答メッセージに関する辞書から値を取り出す
-        testRecvMessage(responseText: messageText)
+    }
+    
+    // メッセージに対して返答する
+    func testRecvMessage(responseText: String) {
+        let post2 = ["from": "user2", "name": "B", "text":responseText]
+        let post2Ref = self.ref.childByAutoId()
+        post2Ref.setValue(post2)
     }
     
     // アイテムごとに参照するメッセージデータを返す
@@ -138,11 +152,5 @@ class ViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages!.count
     }
-    
-    // メッセージに対して返答する
-    func testRecvMessage(responseText: String) {
-        let message = JSQMessage(senderId: "user2", displayName: "B", text: responseText)
-        self.messages?.append(message!)
-        self.finishReceivingMessage(animated: true)
-    }
 }
+
